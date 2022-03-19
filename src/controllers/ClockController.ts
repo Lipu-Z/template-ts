@@ -28,7 +28,7 @@ export class ClockController {
         this.init();
         setInterval(() => {
             this._model.add();
-            this._view.updateTime(this._model.hour.toString(), this._model.minute.toString(), this._model.second.toString());
+            this._view.updateTime(this._model.hourString, this._model.minuteString, this._model.secondString);
         },100)
     }
 

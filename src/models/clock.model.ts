@@ -40,6 +40,15 @@ export class ClockModel {
   public set milsecond(value: number) {
     this._milsecond = value;
   }
+  public get hourString() :string{
+    return this.convertToTwoDigit(this._hour);
+  }
+  public get minuteString() :string{
+      return this.convertToTwoDigit(this._minute);
+  }
+  public get secondString() :string{
+      return this.convertToTwoDigit(this._second);
+  }
   changeMode() {
     if(this._mode == 2) {
       this._mode = 0;
@@ -94,4 +103,8 @@ export class ClockModel {
         this._minute = 0;
     }
   }
+
+  private convertToTwoDigit(digit: number) :string {
+    return ("0" + digit).slice(-2);
+}
 }

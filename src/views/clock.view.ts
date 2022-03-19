@@ -23,7 +23,7 @@ export class ClockView {
 
         let body = this.getElement('body');
         this._app = this.createElement('div', {id: 'clock'});
-        this._app.append(this._hour,  this._minute, this._second,this._modeButton);
+        this._app.append(this._hour,  this._minute, this._second,this._modeButton,this._increaseButton);
         if(body) {
             body.append(this._app);      
         }
@@ -52,6 +52,11 @@ export class ClockView {
 
     bindModeButton(handler: Function) {
         this._modeButton.addEventListener('click', ev => {
+          handler();
+        })
+    }
+    bindIncreaseButton(handler: Function) {
+        this._increaseButton.addEventListener('click', ev => {
           handler();
         })
     }

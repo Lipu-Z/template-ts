@@ -40,4 +40,48 @@ export class ClockModel {
     }
     this._mode++;
   }
+  increase() {
+    switch(this._mode) {
+      case 1:
+        this.increaseHour();
+        break;
+      case 2:
+        this.increaseMinute();
+        break;
+    }
+  }
+  increaseHour(count? : number) {
+    if(count == undefined) {
+        count = 1;
+    }
+    if(this._hour + count > 23) {
+        this._hour = this._hour + count - 23;
+    } 
+    if(this._hour + count < 0) {
+        this._hour = 24 + this._hour + count;
+    }
+    else {
+        this._hour += count;
+    }
+  }
+
+  increaseMinute() {
+      if(this._minute == 59) {
+          this._minute = 0;
+          this.increaseHour();
+      } else {
+          this._minute++;
+      }
+  }
+  add() {
+    this._second += 1;
+    if (this.second >= 60) {
+        this.minute++;
+        this.second = 0;
+    }
+    if (this.minute >= 60) {
+        this.hour++;
+        this.minute = 0;
+    }
+}
 }

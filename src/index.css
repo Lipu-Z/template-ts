@@ -7,4 +7,42 @@ button {
     color: white;
     border: 2px solid #007bff;
     margin: 0 .5rem;
+}
+.boxClock{
+	height: 100px;
+	line-height: 100px;
+	float: left;
+	border: gray 1px solid;
+    width:400px;
+	font-size: 80px;
+	font-weight: bold;
+	color: #008B8B;
+	text-align: center;
+	margin: 20px;
+}
+
+.boxDigit{
+  font-size: 50px;
+	float: left;
+	margin-right: 10px;
+}
+.boxSemiCol{
+    font-size: 30px;
+      float: left;
+      margin-right: 10px;
+}
+.blink {
+    animation: blink 1s steps(1, end) infinite;
+  }
+  
+  @keyframes blink {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }

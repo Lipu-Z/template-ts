@@ -14,23 +14,28 @@ export class ClockView {
     private _formatButton: HTMLButtonElement;
 
     constructor() {
-        this._second = this.createElement('div', {id:'second'});
-        this._minute = this.createElement('div', {id:'minute'});
-        this._hour = this.createElement('div', {id:'hour'});
+        this._second = this.createElement('div', {className : 'boxDigit',id:'second'});
+        this._minute = this.createElement('div', {className : 'boxDigit',id:'minute'});
+        this._hour = this.createElement('div', {className : 'boxDigit',id:'hour'});
 
         this._modeButton = this.createElement('button', {id:'mode', text:'mode'}) as HTMLButtonElement;
         this._increaseButton = this.createElement('button', {id:'increase', text:'increase'}) as HTMLButtonElement;
         this._lightButton = this.createElement('button', {id:'light', text:'light'}) as HTMLButtonElement;
         this._resetButton = this.createElement('button', {id:'reset', text:'reset'}) as HTMLButtonElement;
         this._formatButton = this.createElement('button', {id:'mode', text:'format'}) as HTMLButtonElement;
+        let secol1 = this.createElement('div', {className : 'boxSemiCol', text:':'});
+        let secol2 = this.createElement('div',{className : 'boxSemiCol', text:':'});
         let body = this.getElement('body');
-        this._app = this.createElement('div', {id: 'clock'});
-        this._app.append(this._hour,  this._minute, this._second,this._modeButton,this._increaseButton,this._lightButton,this._resetButton,this._formatButton);
+        this._app = this.createElement('div', {className : 'boxClock',id: 'clock'});
+        this._app.append(this._hour,  secol1, this._minute, secol2, this._second);
+        let _buttonGrp = this.createElement('div', {className : 'boxClock',id: 'funtions'});
+        _buttonGrp.append(this._modeButton,this._increaseButton,this._lightButton,this._resetButton,this._formatButton);
         this._lightButton.addEventListener('click', ev=> {
             this.setLight();
-          })
+        })
         if(body) {
-            body.append(this._app);      
+            body.append(this._app);
+            body.append(_buttonGrp);            
         }
     }
 
@@ -75,11 +80,37 @@ export class ClockView {
           handler();
         })
     }
-    setLight() {
+    setLight(on? :boolean) {
+        if(on != undefined) {
+            if(on) {
+                this._app.setAttribute('style', 'background-color:blue');
+                return;
+            } else {
+                this._app.removeAttribute('style');
+                return;  
+            }
+        }
         if(!this._app.hasAttribute('style')) {
           this._app.setAttribute('style', 'background-color:blue');
         } else {
           this._app.removeAttribute('style');
         }
+    }
+
+    setToBlink(propertyName: string) {
+        if(propertyName == 'hour') {
+            this._hour.className = 'boxDigit blink';
+            this._minute.className = 'boxDigit';
+            return;
+        }
+        if(propertyName == 'minute') {
+            this._minute.className = 'boxDigit blink';
+            this._hour.className = 'boxDigit';
+            return;
+        }
+        this._minute.className = 'boxDigit';
+        this._hour.className = 'boxDigit';
+
+
     }
 } 

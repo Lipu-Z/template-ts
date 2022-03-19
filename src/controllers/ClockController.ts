@@ -39,10 +39,25 @@ export class ClockController {
         this._model.second = current.getSeconds();
         this._model.hour = current.getHours();
         this._model.minute = current.getMinutes();
+        this._model.mode = 0;
+        this._model.isFormatTwelveHour = false;
+        this._view.setToBlink('reset');
+        this._view.setLight(false);
+
     }
 
     onModeChanged = () => {
         this._model.changeMode();
+        switch(this._model.mode) {
+            case 1:
+                this._view.setToBlink('hour');
+                break;
+            case 2:
+                this._view.setToBlink('minute');
+                break;
+            default:
+                this._view.setToBlink('reset');
+        }
     }
     onIncrease = () => {
         this.model.increase();

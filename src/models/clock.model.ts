@@ -12,9 +12,16 @@ export class ClockModel {
   private _mode: number;
   // display in AM/PM
   private _isFormatTwelveHour: boolean;
+
   constructor() {
     this._mode = 0;
     this._isFormatTwelveHour = false;
+  }
+  public get isFormatTwelveHour(): boolean {
+    return this._isFormatTwelveHour;
+  }
+  public set isFormatTwelveHour(value: boolean) {
+    this._isFormatTwelveHour = value;
   }
   public get second(): number {
     return this._second;
@@ -36,6 +43,9 @@ export class ClockModel {
   }
   public get mode() : number {
     return this._mode;
+  }
+  public set mode(value: number) {
+    this._mode = value;
   }
   public get milsecond(): number {
     return this._milsecond;
@@ -85,7 +95,6 @@ export class ClockModel {
     if(count == undefined) {
         count = 1;
     }
-    console.log(this._hour + ' ' + count);
     if(this._hour + count > 23) {
         this._hour = this._hour + count - 24;
         return;

@@ -11,7 +11,7 @@ export class ClockView {
     private _increaseButton: HTMLButtonElement;
     private _lightButton: HTMLButtonElement;
     private _resetButton: HTMLButtonElement;
-
+    private _formatButton: HTMLButtonElement;
 
     constructor() {
         this._second = this.createElement('div', {id:'second'});
@@ -22,10 +22,10 @@ export class ClockView {
         this._increaseButton = this.createElement('button', {id:'increase', text:'increase'}) as HTMLButtonElement;
         this._lightButton = this.createElement('button', {id:'light', text:'light'}) as HTMLButtonElement;
         this._resetButton = this.createElement('button', {id:'reset', text:'reset'}) as HTMLButtonElement;
-
+        this._formatButton = this.createElement('button', {id:'mode', text:'format'}) as HTMLButtonElement;
         let body = this.getElement('body');
         this._app = this.createElement('div', {id: 'clock'});
-        this._app.append(this._hour,  this._minute, this._second,this._modeButton,this._increaseButton,this._lightButton,this._resetButton);
+        this._app.append(this._hour,  this._minute, this._second,this._modeButton,this._increaseButton,this._lightButton,this._resetButton,this._formatButton);
         this._lightButton.addEventListener('click', ev=> {
             this.setLight();
           })
@@ -69,7 +69,12 @@ export class ClockView {
         this._resetButton.addEventListener('click',ev =>{
           handler();
         })
-      }
+    }
+    bindFormatButton(handler: Function) {
+        this._formatButton.addEventListener('click',ev =>{
+          handler();
+        })
+    }
     setLight() {
         if(!this._app.hasAttribute('style')) {
           this._app.setAttribute('style', 'background-color:blue');

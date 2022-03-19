@@ -10,8 +10,11 @@ export class ClockModel {
   0: disabled
   */
   private _mode: number;
+  // display in AM/PM
+  private _isFormatTwelveHour: boolean;
   constructor() {
     this._mode = 0;
+    this._isFormatTwelveHour = false;
   }
   public get second(): number {
     return this._second;
@@ -41,21 +44,32 @@ export class ClockModel {
     this._milsecond = value;
   }
   public get hourString() :string{
-    return this.convertToTwoDigit(this._hour);
+    let tempHour = this._hour;
+    if(this._isFormatTwelveHour && tempHour>12){
+        tempHour = tempHour - 12;
+    }
+    return this.convertToTwoDigit(tempHour);
   }
   public get minuteString() :string{
       return this.convertToTwoDigit(this._minute);
   }
   public get secondString() :string{
-      return this.convertToTwoDigit(this._second);
+      return this.convertToTwoDigit(this._second) + this.ampm;
+  }
+  public get ampm(): string {
+    if(this._isFormatTwelveHour) {
+        return this._hour > 12 ? 'PM' : 'AM';
+    }
+    return '';
   }
   changeMode() {
     if(this._mode == 2) {
       this._mode = 0;
+      return;
     }
     this._mode++;
   }
-  increase() {
+  increase() { 
     switch(this._mode) {
       case 1:
         this.increaseHour();
@@ -63,17 +77,22 @@ export class ClockModel {
       case 2:
         this.increaseMinute();
         break;
+      default: 
+        return;
     }
   }
   increaseHour(count? : number) {
     if(count == undefined) {
         count = 1;
     }
+    console.log(this._hour + ' ' + count);
     if(this._hour + count > 23) {
-        this._hour = this._hour + count - 23;
+        this._hour = this._hour + count - 24;
+        return;
     } 
     if(this._hour + count < 0) {
         this._hour = 24 + this._hour + count;
+        return;
     }
     else {
         this._hour += count;
@@ -103,8 +122,10 @@ export class ClockModel {
         this._minute = 0;
     }
   }
-
+  changeFormat() {
+    this._isFormatTwelveHour = !this._isFormatTwelveHour;
+  }
   private convertToTwoDigit(digit: number) :string {
-    return ("0" + digit).slice(-2);
+    return ('0' + digit).slice(-2);
 }
 }

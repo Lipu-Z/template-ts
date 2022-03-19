@@ -11,6 +11,7 @@ export class ClockController {
         this._view.bindModeButton(this.onModeChanged);
         this._view.bindIncreaseButton(this.onIncrease);
         this._view.bindResetButton(this.onReset);
+        this._view.bindFormatButton(this.onFormatChange);
     }
     public get view(): ClockView {
         return this._view;
@@ -49,5 +50,8 @@ export class ClockController {
 
     onReset = () => {
         this.init();
+    }
+    onFormatChange = () => {
+        this.model.changeFormat();
     }
 }

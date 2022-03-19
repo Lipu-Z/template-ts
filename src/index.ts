@@ -1,5 +1,5 @@
 import './index.css';
-import { MyClass } from './example-unit';
+import { ClockView } from './views/clock.view';
 
-const a = new MyClass(2);
-console.log('number is', a.get());
+
+let view = new ClockView();

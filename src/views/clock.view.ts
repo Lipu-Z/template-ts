@@ -23,7 +23,10 @@ export class ClockView {
 
         let body = this.getElement('body');
         this._app = this.createElement('div', {id: 'clock'});
-        this._app.append(this._hour,  this._minute, this._second,this._modeButton,this._increaseButton);
+        this._app.append(this._hour,  this._minute, this._second,this._modeButton,this._increaseButton,this._lightButton);
+        this._lightButton.addEventListener('click', ev=> {
+            this.setLight();
+          })
         if(body) {
             body.append(this._app);      
         }
@@ -60,4 +63,11 @@ export class ClockView {
           handler();
         })
     }
+    setLight() {
+        if(!this._app.hasAttribute('style')) {
+          this._app.setAttribute('style', 'background-color:blue');
+        } else {
+          this._app.removeAttribute('style');
+        }
+      }
 } 

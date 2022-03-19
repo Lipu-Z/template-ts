@@ -3,6 +3,9 @@ export class ClockModel {
   private _minute: number;
   private _hour: number;
   private _milsecond: number;
+  private _timezone: number;
+
+
 
   /* mode flag
   1: hour increasing
@@ -17,6 +20,12 @@ export class ClockModel {
     this._mode = 0;
     this._isFormatTwelveHour = false;
   }
+  public get timezone(): number {
+    return this._timezone;
+  }
+  public set timezone(value: number) {
+    this._timezone = value;
+ }
   public get isFormatTwelveHour(): boolean {
     return this._isFormatTwelveHour;
   }
@@ -71,6 +80,15 @@ export class ClockModel {
         return this._hour > 12 ? 'PM' : 'AM';
     }
     return '';
+  }
+  changeTimeZone(value: number) {
+    if(this._timezone == undefined) {
+      this._timezone = value;
+      return;
+    }
+    let jetlag = this._timezone - value;
+    this.increaseHour(jetlag);
+    this._timezone = value;
   }
   changeMode() {
     if(this._mode == 2) {

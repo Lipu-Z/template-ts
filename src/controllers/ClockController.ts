@@ -4,7 +4,15 @@ import { ClockView } from "../views/clock.view";
 export class ClockController {
     private _model: ClockModel;
     private _view: ClockView;
-
+    public static readonly TIMEZONE_MAP = [
+        {
+            text: 'UTC+0',
+            value: 0
+        },
+        {
+            text: 'UTC+1',
+            value: -1
+    }]
     constructor(model: ClockModel, view: ClockView) {
         this._model = model;
         this._view = view;
@@ -12,6 +20,7 @@ export class ClockController {
         this._view.bindIncreaseButton(this.onIncrease);
         this._view.bindResetButton(this.onReset);
         this._view.bindFormatButton(this.onFormatChange);
+        this._view.bindTimeZoneSelect(this.onTimeZonChanged);
     }
     public get view(): ClockView {
         return this._view;
@@ -39,10 +48,12 @@ export class ClockController {
         this._model.second = current.getSeconds();
         this._model.hour = current.getHours();
         this._model.minute = current.getMinutes();
+        this._model.timezone = current.getTimezoneOffset()/60;
         this._model.mode = 0;
         this._model.isFormatTwelveHour = false;
         this._view.setToBlink('reset');
         this._view.setLight(false);
+        this._view.setTimezone(this._model.timezone);
 
     }
 
@@ -68,5 +79,8 @@ export class ClockController {
     }
     onFormatChange = () => {
         this.model.changeFormat();
+    }
+    onTimeZonChanged = (timeZone: string) => {
+        this._model.changeTimeZone(+timeZone);
     }
 }

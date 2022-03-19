@@ -1,3 +1,5 @@
+import { ClockController } from "../controllers/ClockController";
+
 export class ClockView {
     private _app: HTMLElement;
 
@@ -12,6 +14,7 @@ export class ClockView {
     private _lightButton: HTMLButtonElement;
     private _resetButton: HTMLButtonElement;
     private _formatButton: HTMLButtonElement;
+    private _timeZoneSelect: HTMLSelectElement;
 
     constructor() {
         this._second = this.createElement('div', {className : 'boxDigit',id:'second'});
@@ -23,13 +26,15 @@ export class ClockView {
         this._lightButton = this.createElement('button', {id:'light', text:'light'}) as HTMLButtonElement;
         this._resetButton = this.createElement('button', {id:'reset', text:'reset'}) as HTMLButtonElement;
         this._formatButton = this.createElement('button', {id:'mode', text:'format'}) as HTMLButtonElement;
+        this._timeZoneSelect = this.createSelect({options: ClockController.TIMEZONE_MAP});
+
         let secol1 = this.createElement('div', {className : 'boxSemiCol', text:':'});
         let secol2 = this.createElement('div',{className : 'boxSemiCol', text:':'});
         let body = this.getElement('body');
         this._app = this.createElement('div', {className : 'boxClock',id: 'clock'});
         this._app.append(this._hour,  secol1, this._minute, secol2, this._second);
         let _buttonGrp = this.createElement('div', {className : 'boxClock',id: 'funtions'});
-        _buttonGrp.append(this._modeButton,this._increaseButton,this._lightButton,this._resetButton,this._formatButton);
+        _buttonGrp.append(this._modeButton,this._increaseButton,this._lightButton,this._resetButton,this._formatButton,this._timeZoneSelect);
         this._lightButton.addEventListener('click', ev=> {
             this.setLight();
         })
@@ -54,6 +59,19 @@ export class ClockView {
         }
         return element;
     }
+    private createSelect(params:any) : HTMLSelectElement{
+        let elm = this.createElement('select');
+        if(params.options) {
+          for(let option of params.options ) {
+            let newOption= this.createElement('option', {text: option.text, id: option.id}) as HTMLSelectElement;
+            if(option.value != undefined) {
+              newOption.value = option.value;
+            }
+            elm.append(newOption);
+          }
+        }
+        return elm as HTMLSelectElement;
+      }
     updateTime(hour: string, minute:string, second: string) {
         this._hour.textContent = hour;
         this._minute.textContent = minute;
@@ -78,6 +96,11 @@ export class ClockView {
     bindFormatButton(handler: Function) {
         this._formatButton.addEventListener('click',ev =>{
           handler();
+        })
+    }
+    bindTimeZoneSelect(handler: Function) {
+        this._timeZoneSelect.addEventListener('change', ev => {
+          handler((ev.target as HTMLSelectElement).value);
         })
     }
     setLight(on? :boolean) {
@@ -110,7 +133,8 @@ export class ClockView {
         }
         this._minute.className = 'boxDigit';
         this._hour.className = 'boxDigit';
-
-
+    }
+    setTimezone(timeZone: number) {
+        this._timeZoneSelect.value = timeZone.toString();
     }
 } 

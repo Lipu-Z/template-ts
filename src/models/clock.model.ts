@@ -2,7 +2,7 @@ export class ClockModel {
   private _second: number;
   private _minute: number;
   private _hour: number;
-
+  private _milsecond: number;
 
   /* mode flag
   1: hour increasing
@@ -33,6 +33,12 @@ export class ClockModel {
   }
   public get mode() : number {
     return this._mode;
+  }
+  public get milsecond(): number {
+    return this._milsecond;
+  }
+  public set milsecond(value: number) {
+    this._milsecond = value;
   }
   changeMode() {
     if(this._mode == 2) {
@@ -74,14 +80,18 @@ export class ClockModel {
       }
   }
   add() {
-    this._second += 1;
-    if (this.second >= 60) {
-        this.minute++;
-        this.second = 0;
+    this._milsecond += 100;
+    if (this._milsecond >= 1000) {
+        this._second++;
+        this._milsecond = 0;
     }
-    if (this.minute >= 60) {
-        this.hour++;
-        this.minute = 0;
+    if (this._second >= 60) {
+        this._minute++;
+        this._second = 0;
     }
-}
+    if (this._minute >= 60) {
+        this._hour++;
+        this._minute = 0;
+    }
+  }
 }

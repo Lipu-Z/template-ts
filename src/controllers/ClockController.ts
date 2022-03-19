@@ -10,6 +10,7 @@ export class ClockController {
         this._view = view;
         this._view.bindModeButton(this.onModeChanged);
         this._view.bindIncreaseButton(this.onIncrease);
+        this._view.bindResetButton(this.onReset);
     }
     public get view(): ClockView {
         return this._view;
@@ -27,23 +28,26 @@ export class ClockController {
         this.init();
         setInterval(() => {
             this._model.add();
-            this.view.updateTime(this._model.hour.toString(), this._model.minute.toString(), this._model.second.toString());
-        },1000)
-
+            this._view.updateTime(this._model.hour.toString(), this._model.minute.toString(), this._model.second.toString());
+        },100)
     }
 
     init() {
         let current = new Date();
+        this._model.milsecond = current.getMilliseconds();
         this._model.second = current.getSeconds();
         this._model.hour = current.getHours();
         this._model.minute = current.getMinutes();
     }
 
     onModeChanged = () => {
-        console.log('test2');
         this._model.changeMode();
     }
     onIncrease = () => {
         this.model.increase();
+    }
+
+    onReset = () => {
+        this.init();
     }
 }

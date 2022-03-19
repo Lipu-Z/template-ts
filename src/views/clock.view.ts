@@ -10,6 +10,7 @@ export class ClockView {
     private _modeButton: HTMLButtonElement;
     private _increaseButton: HTMLButtonElement;
     private _lightButton: HTMLButtonElement;
+    private _resetButton: HTMLButtonElement;
 
 
     constructor() {
@@ -20,10 +21,11 @@ export class ClockView {
         this._modeButton = this.createElement('button', {id:'mode', text:'mode'}) as HTMLButtonElement;
         this._increaseButton = this.createElement('button', {id:'increase', text:'increase'}) as HTMLButtonElement;
         this._lightButton = this.createElement('button', {id:'light', text:'light'}) as HTMLButtonElement;
+        this._resetButton = this.createElement('button', {id:'reset', text:'reset'}) as HTMLButtonElement;
 
         let body = this.getElement('body');
         this._app = this.createElement('div', {id: 'clock'});
-        this._app.append(this._hour,  this._minute, this._second,this._modeButton,this._increaseButton,this._lightButton);
+        this._app.append(this._hour,  this._minute, this._second,this._modeButton,this._increaseButton,this._lightButton,this._resetButton);
         this._lightButton.addEventListener('click', ev=> {
             this.setLight();
           })
@@ -63,11 +65,16 @@ export class ClockView {
           handler();
         })
     }
+    bindResetButton(handler: Function) {
+        this._resetButton.addEventListener('click',ev =>{
+          handler();
+        })
+      }
     setLight() {
         if(!this._app.hasAttribute('style')) {
           this._app.setAttribute('style', 'background-color:blue');
         } else {
           this._app.removeAttribute('style');
         }
-      }
+    }
 } 
